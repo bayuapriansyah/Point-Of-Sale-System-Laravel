@@ -85,5 +85,6 @@ class ProdukController extends Controller
         $stok = Products::find($id)->stok;
         return response()->json($stok);
     }
+    
 
 }

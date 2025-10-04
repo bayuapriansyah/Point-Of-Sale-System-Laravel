@@ -10,4 +10,8 @@ class PenerimaanBarangController extends Controller
     {
         return view('penerimaan-barang.index');
     }
+
+    public function store(Request $request) {
+        dd($request->all());
+    }
 }
