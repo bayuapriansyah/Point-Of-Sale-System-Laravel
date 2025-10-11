@@ -23,8 +23,8 @@
                     @if (!$route['is_dropdown'])
                         <li class="nav-item">
                             <a href="{{ route($route['route_name']) }}"
-                                class="nav-link {{ request()->routeIs($route['route_active']) ? 'active' : '' }}"">
-                                                                <i class=" nav-icon {{ $route['icon'] }}"></i>
+                                class="nav-link {{ request()->routeIs($route['route_active']) ? 'active' : '' }}">
+                                <i class="nav-icon {{ $route['icon'] ?? 'fas fa-circle' }}"></i>
                                 <p>
                                     {{ $route['label'] }}
                                 </p>
@@ -33,7 +33,7 @@
                     @else
                         <li class=" nav-item {{ request()->routeIs(($route['route_active'])) ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas {{ $route['icon'] }}"></i>
+                                <i class="nav-icon {{ $route['icon'] ?? 'fas fa-circle' }}"></i>
                                 <p>
                                     {{ $route['label'] }}
                                     <i class="right fas fa-angle-left"></i>

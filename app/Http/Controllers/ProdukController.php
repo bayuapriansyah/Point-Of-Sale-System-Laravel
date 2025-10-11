@@ -70,8 +70,36 @@ class ProdukController extends Controller
     public function getData()
     {
         $search = request()->query('search');
+        $id = request()->query('id');
 
-        $products = Products::where('nama_produk', 'like', '%' . $search . '%')->get();
+        if ($id) {
+            $product = Products::find($id);
+            if (!$product)
+                return response()->json(['results' => []]);
+            return response()->json([
+                'results' => [
+                    [
+                        'id' => $product->id,
+                        'nama_produk' => $product->nama_produk,
+                        // map sale price to `harga` for client compatibility
+                        'harga' => $product->harga_jual ?? $product->harga ?? 0,
+                        'stok' => $product->stok,
+                    ]
+                ]
+            ]);
+        }
+
+        $products = Products::where('nama_produk', 'like', '%' . $search . '%')
+            ->limit(20)
+            ->get(['id', 'nama_produk', 'harga_jual', 'stok'])
+            ->map(function ($p) {
+                return [
+                    'id' => $p->id,
+                    'nama_produk' => $p->nama_produk,
+                    'harga' => $p->harga_jual ?? 0,
+                    'stok' => $p->stok,
+                ];
+            });
 
         return response()->json([
             'results' => $products
@@ -85,6 +113,12 @@ class ProdukController extends Controller
         $stok = Products::find($id)->stok;
         return response()->json($stok);
     }
-    
+    public function cekHarga()
+    {
+        $id = request()->query('id');
+        // dd($id);
+        $harga = Products::find($id)->harga_jual;
+        return response()->json($harga);
+    }
 
 }

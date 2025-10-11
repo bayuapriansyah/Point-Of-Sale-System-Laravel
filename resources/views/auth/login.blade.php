@@ -77,9 +77,9 @@
                 </div>
                 <!-- /.social-auth-links -->
 
-                <p class="mb-1">
+                <!-- <p class="mb-1">
                     <a href="forgot-password.html">I forgot my password</a>
-                </p>
+                </p> -->
             </div>
             <!-- /.card-body -->
         </div>

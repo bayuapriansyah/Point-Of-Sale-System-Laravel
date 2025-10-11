@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('content_title', 'Penerimaan Barang')
+@section('content_title', 'Pengeluaran Barang / Transaksi')
 @section('content')
 
     <div class="card">
@@ -8,21 +8,13 @@
                 @csrf
                 <div id="input-hidden"></div>
                 <div class="d-flex justify-content-between">
-                    <h5 class="h5">Penerimaan Barang</h5>
+                    <h5 class="h5">Pengeluaran Barang</h5>
                     <div>
-                        <button type="submit" class="btn btn-success">Simpan Penerimaan</button>
+                        <button type="submit" class="btn btn-success">Simpan Pengeluaran</button>
                     </div>
                 </div>
         </div>
         <div class="card-body">
-            <div>
-                <label for="distributor">Distributor</label>
-                <input type="text" name="distributor" id="distributor" class="form-control">
-            </div>
-            <div>
-                <label for="distributor">Nomor faktur</label>
-                <input type="text" name="nomor_faktur" id="nomor_faktur" class="form-control">
-            </div>
             <div class="d-flex">
                 <div class="w-100 mr-2">
                     <label for="select2">Produk</label>
@@ -31,6 +23,10 @@
                 <div class="mr-2">
                     <label for="jumlah">Stok</label>
                     <input type="number" id="jumlah" class="form-control" style="width:100px;" readonly>
+                </div>
+                <div class="mr-2">
+                    <label for="harga">Harga</label>
+                    <input id="harga" class="form-control" style="width:100px;" readonly>
                 </div>
                 <div class="mr-2">
                     <label for="qty">Qty</label>
@@ -46,10 +42,18 @@
                         <th>No</th>
                         <th>Nama Produk</th>
                         <th>Qty</th>
+                        <th>Harga</th>
+                        <th>Sub total</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                        <td colspan="1"><strong id="grand-total">0</strong></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -76,6 +80,7 @@
                     },
                     processResults: (data) => {
                         data.results.forEach(item => {
+                            item.harga_jual = item.harga ?? item.harga_jual ?? 0;
                             selectedProduk[item.id] = item;
                         });
                         return {
@@ -97,22 +102,41 @@
                 $.ajax({
                     type: "GET",
                     url: "{{ route('get-data.cek-stok') }}",
-                    data: {
-                        id: id
-                    },
+                    data: { id: id },
                     dataType: "json",
                     success: function (response) {
-                        console.log(response);
                         $('#jumlah').val(response);
                     }
                 })
+
+                const cached = selectedProduk[id];
+                if (cached && cached.harga_jual && Number(cached.harga_jual) > 0) {
+                    const harga = Number(cached.harga_jual);
+                    $('#harga').val("Rp" + harga.toLocaleString('id-ID'));
+                } else if (id) {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ route('get-data.cek-harga') }}",
+                        data: { id: id },
+                        dataType: "json",
+                        success: function (response) {
+                            const harga = Number(response) || 0;
+                            $('#harga').val("Rp" + harga.toLocaleString('id-ID'));
+                            if (selectedProduk[id]) selectedProduk[id].harga_jual = harga;
+                        }
+                    })
+                } else {
+                    $('#harga').val('');
+                }
             })
 
             $("#btn-tambah").on("click", function () {
                 let id = $("#select2").val();
                 let produk = selectedProduk[id];
-                let stok = $("#jumlah").val();
-                let qty = $("#qty").val();
+                let stok = parseInt($("#jumlah").val());
+                let qty = parseInt($("#qty").val());
+                const harga = Number(produk.harga_jual || produk.harga || 0);
+                const subtotal = harga * parseInt(qty);
 
                 if (!id) {
                     return alert("silahkan pilih produk terlebih dahulu");
@@ -122,7 +146,7 @@
                     return alert("stok tidak mencukupi");
                 }
 
-                listProduk.push({ id, nama: produk.nama_produk, qty: qty, stok });
+                listProduk.push({ id, nama: produk.nama_produk, qty: qty, stok, harga_jual: harga, subtotal: subtotal });
 
                 tampilTable();
                 renderHiddenInputs();
@@ -130,24 +154,35 @@
                 $("#select2").val(null).trigger("change");
                 $("#qty").val("");
                 $("#jumlah").val("");
+                $("#harga").val("");
+
             });
 
             function tampilTable() {
                 let rows = '';
+                let grandTotal = 0;
                 listProduk.forEach((item, index) => {
+
+                    const qty = parseInt(item.qty) || 0;
+                    const harga = parseFloat(item.harga_jual || item.harga || 0) || 0;
+                    const subtotal = harga * qty;
+                    grandTotal += subtotal;
+
                     rows += `
-                                    <tr>
-                                        <td>${index + 1}</td>
-                                        <td>${item.nama}</td>
-                                        <td>${item.qty}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="hapusItem(${index})">Hapus</button>
-                                        </td>
-                                    </tr>
-                                    `;
+                                           <tr>
+                                             <td>${index + 1}</td>
+                                            <td>${item.nama}</td>
+                                              <td>${qty}</td>
+                                            <td>${formatRupiah(harga)}</td>
+                                              <td>${formatRupiah(subtotal)}</td>
+                                                <td>
+                                             <button type="button" class="btn btn-danger btn-sm" onclick="hapusItem(${index})">Hapus</button>
+                                            </td>
+                                           </tr>`;
                 });
 
                 $("#table-produk tbody").html(rows);
+                $("#grand-total").text(formatRupiah(grandTotal));
             }
 
             window.hapusItem = function (index) {
@@ -159,12 +194,23 @@
             function renderHiddenInputs() {
                 let html = '';
                 listProduk.forEach((item, index) => {
+                    const qty = parseInt(item.qty) || 0;
+                    const harga = parseFloat(item.harga_jual || item.harga || 0) || 0;
+                    const subtotal = harga * qty;
+
                     html += `
-                        <input type="hidden" name="produk[${index}][id]" value="${item.id}">
-                        <input type="hidden" name="produk[${index}][qty]" value="${item.qty}">
-                    `;
+                                        <input type="hidden" name="produk[${index}][id]" value="${item.id}">
+                                         <input type="hidden" name="produk[${index}][qty]" value="${qty}">
+                                           <input type="hidden" name="produk[${index}][harga_jual]" value="${harga}">
+                                           <input type="hidden" name="produk[${index}][subtotal]" value="${subtotal}">
+                                                                                                        `;
                 });
                 $("#input-hidden").html(html);
+            }
+
+            function formatRupiah(number) {
+
+                return new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0 }).format(number);
             }
         });
     </script>
