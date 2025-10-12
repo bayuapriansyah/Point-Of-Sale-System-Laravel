@@ -51,12 +51,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/store', 'store')->name('store');
     });
-    Route::prefix('laporan')->as('laporan.')->group(function () {  
+    Route::prefix('laporan')->as('laporan.')->group(function () {
         Route::get('/penerimaan-barang/laporan', [PenerimaanBarangController::class, 'laporan'])->name('penerimaan-barang.laporan');
+        Route::get('/pengeluaran-barang/laporan', [PengeluaranBarangController::class, 'laporan'])->name('pengeluaran-barang.laporan');
     });
     Route::prefix('pengeluaran-barang')->as('pengeluaran-barang.')->controller(PengeluaranBarangController::class)->group(function () {
         Route::get('/', 'index')->name('index');
-
+        Route::post('/store', 'store')->name('store');
     });
 });
 
