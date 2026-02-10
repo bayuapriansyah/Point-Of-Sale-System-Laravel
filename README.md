@@ -1,65 +1,53 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Point of Sale System - Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem Point of Sale (POS) yang modern dan efisien dibangun dengan Laravel Framework 12.0. Aplikasi ini dirancang untuk memudahkan proses transaksi penjualan dan manajemen inventori bisnis Anda.
 
-## About Laravel
+## 🎯 Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- ✅ Sistem Autentikasi & Autorisasi
+- ✅ Manajemen Produk
+- ✅ Manajemen Inventori
+- ✅ Proses Transaksi Penjualan
+- ✅ Laporan & Analytics
+- ✅ Manajemen Pengguna
+- ✅ Notifikasi SweetAlert
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Teknologi yang Digunakan
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications. hasinkipu
+### Backend
+- **Laravel Framework** 12.0 - PHP Web Framework
+- **PHP** 8.2+ - Server-side Programming Language
+- **MySQL/MariaDB** - Database Management System
+- **Composer** - PHP Dependency Manager
+- **Artisan CLI** - Laravel Command-line Interface
 
-## Learning Laravel
+### Frontend
+- **HTML5, CSS3** - Markup & Styling
+- **JavaScript (Vanilla JS)** - Client-side Scripting
+- **SweetAlert 7.3** - Alert & Notification Library
+- **Vite** - Frontend Build Tool & Module Bundler
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Development Tools
+- **PHPUnit** 11.5.3 - Unit Testing Framework
+- **Laravel Pint** 1.24 - PHP Code Style Fixer
+- **Laravel Pail** 1.2.2 - Log Monitoring
+- **Faker** 1.23 - Fake Data Generator
+- **Mockery** 1.6 - Testing Mock Library
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 📋 Prasyarat Instalasi
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Sebelum memulai, pastikan sistem Anda memiliki:
 
-## Laravel Sponsors
+- **PHP** >= 8.2
+- **Composer** - [Download di sini](https://getcomposer.org/)
+- **MySQL** atau **MariaDB** >= 5.7
+- **Git** - [Download di sini](https://git-scm.com/)
+- **Node.js** >= 16 & **NPM** >= 8
+- **Web Server** (Apache/Nginx)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Panduan Instalasi
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation
-(https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-Web aplikasi karsir point of sale atau POS System josjis
-
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 1. Clone Repository
+```bash
+git clone https://github.com/bayuapriansyah/Point-Of-Sale-System-Laravel.git
+cd Point-Of-Sale-System-Laravel
